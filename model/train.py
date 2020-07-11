@@ -1,8 +1,13 @@
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
-
+# This needs to be here despite not being used see
+# https://scikit-learn.org/stable/modules/generated/sklearn.impute.IterativeImputer.html
+from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
 from sklearn.neighbors import NearestNeighbors
+from sklearn.preprocessing import StandardScaler
 
 
 class DogKNN:
@@ -17,7 +22,11 @@ class DogKNN:
         Returns:
             pd.DataFrame: A cleaned dataframe
         """
-        df = pd.read_csv('KIBBestInShowFull.csv')
+        try:
+            df = pd.read_csv('KIBBestInShowFull.csv')
+        except FileNotFoundError:
+            path = Path('model') / Path('KIBBestInShowFull.csv')
+            df = pd.read_csv(path)
         df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
         df = df.replace('no data', np.nan)
         df = df.replace('NA (3 classes)', np.nan)
@@ -64,6 +73,7 @@ class DogKNN:
         # https://scikit-learn.org/stable/modules/impute.html
         X = IterativeImputer(max_iter=10, random_state=42)\
             .fit_transform(subset_df)
+        X = StandardScaler().fit_transform(X)
         nbrs = NearestNeighbors(n_neighbors=self.n_neighbors).fit(X)
 
         idx = self.df.index[self.df['dog breed'] == self.dog_breed]
@@ -98,29 +108,36 @@ def comma_formatter(name_list: list) -> str:
     return ", ".join(name_list[:-2] + [", and ".join(name_list[-2:])])
 
 
-def main(dog_breed: str, n_neighbors: int = 3) -> None:
+def main(dog_breed: str, n_neighbors: int = 3, cost_vars: bool = False) -> str:
     """ Print the nearest neighbors of a given dog breed
 
     Args:
         dog_breed (str): One of the 174 dog breeds in the dataset
         n_neighbors (int, optional): number of neighbors to choose.
             Defaults to 3.
+
+    Returns:
+        str: The nearest neighbors of the dog_breed and the variables used.
     """
     dog_knn = DogKNN(dog_breed=dog_breed, n_neighbors=n_neighbors)
-    phys_vars = ['3 no. of genetic ailments',
-                 'weight (kg)',
-                 'shoulder height (cm)']
-    cost_vars = ['lifetime cost, $',
-                 '4a average purchase price, us$',
-                 '4b food costs per year, us$',
-                 'other regular costs, total per lifetime, $']
-    for var_list in [phys_vars, cost_vars]:
-        subset_df = dog_knn.select_variables(var_list)
-        neighbors = dog_knn.find_neighbors(subset_df)
-        breed_names = dog_knn.get_breed_names(neighbors)
-        print(breed_names)
-        fmt_vars = comma_formatter(var_list)
-        print(f"using the variables {fmt_vars}")
+
+    if cost_vars:
+        var_list = ['lifetime cost, $',
+                    '4a average purchase price, us$',
+                    '4b food costs per year, us$',
+                    'other regular costs, total per lifetime, $']
+    else:
+        var_list = ['3 no. of genetic ailments',
+                    'weight (kg)',
+                    'shoulder height (cm)']
+
+    subset_df = dog_knn.select_variables(var_list)
+    neighbors = dog_knn.find_neighbors(subset_df)
+    breed_names = dog_knn.get_breed_names(neighbors)
+    print(breed_names)
+    fmt_vars = comma_formatter(var_list)
+    print(f"using the variables {fmt_vars}")
+    return breed_names + f'Using the variables {fmt_vars}'
 
 
 if __name__ == '__main__':
