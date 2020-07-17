@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+body {
+  background-image: url("https://c1.peakpx.com/wallpaper/648/588/918/white-dog-labrador-animal-wallpaper-preview.jpg");
+  background-size: cover;
+  color: white;
+  text-align: center;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
