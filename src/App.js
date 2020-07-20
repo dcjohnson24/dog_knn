@@ -1,6 +1,9 @@
 import React from 'react';
-import { Container, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import './App.css';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 //TODO Write a class for this with a render method following this guy's stuff
@@ -29,7 +32,7 @@ class App extends React.Component {
   }
 
   handleClick = (event) => {
-    const formData = this.formData;
+    const formData = this.state.formData;
     fetch('/api/dogs',
       {
         headers: {
@@ -52,35 +55,31 @@ class App extends React.Component {
     const result = this.state.result;
     return (
       <Container style = {{ color: "white" }} className="App" >
-        <h1>Welcome to the Dog Nearest Neighbors App</h1>
+        <h1>Welcome to the <br></br>Dog Nearest Neighbors App</h1>
         <Form className="form">
-          <Col>
-            <FormGroup>
-              <Label>Name of Dog</Label>
-              <Input 
+          <Form.Row>
+            <Form.Group as={Col}>
+              <Form.Label>Name of Dog</Form.Label>
+              <Form.Control
               type="text" 
               name="dogName" 
-              placeholder="Labrador Retriever"
+              //placeholder="Labrador Retriever"
               value={formData.dogName}
-              onChange={this.handleChange}
-              ></Input>
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label for="3">Number of Neighbors</Label>
-              <Input 
-              type="number" 
-              step="1" 
-              min="1"
-              name="numNeighbors" 
-              placeholder="3"
-              value={formData.numNeighbors} 
-              onChange={this.handleChange}>
-              </Input>
-            </FormGroup>
-          </Col>
-          <Button onclick={this.handleClick}>Submit</Button>
+              onChange={this.handleChange}/>
+            </Form.Group>
+            <Form.Group as={Col}>
+              <Form.Label>Number of Neighbors</Form.Label>
+              <Form.Control
+                type="number" 
+                step="1" 
+                min="1"
+                name="numNeighbors" 
+                //placeholder="3"
+                value={formData.numNeighbors} 
+                onChange={this.handleChange}/>
+              </Form.Group>
+          </Form.Row>
+          <Button onClick={this.handleClick}>Submit</Button>
         </Form>
         {result === "" ? null: 
         (<Col className="result-container">
@@ -90,43 +89,5 @@ class App extends React.Component {
     );
   }
 }
-
-
-
-// function App() {
-//   let nearest_neighbors = ['Poodles', 'Dalmations', 'Golden Retrievers'];
-//   const display = nearest_neighbors.map((number) => 
-//     <li>{number}</li>
-//   );
-
-//   return (
-//     <div classname="App">
-//       <header classname="App-header">
-        
-//         <title>Welcome to the Dog KNN App!</title>
-//         <h1>Find the nearest neighbors of your favorite dogs</h1>
-//       </header>
-//       <p> The nearest neighbors of Rotweiler are 
-//         <ul>
-//           {display}
-//         </ul>
-//       </p>
-//     </div>
-    
-//   );
-// }
-
-// function Input() {
-//   return (
-//     <div>
-//       Dogs: <input type="text" classname="Search" placeholder="Search..." /><br></br><br></br>
-//       Number of Neighbors: <input type="text" classname="input" placeholder="Number of neighbors e.g. 3..." />
-//       <p>
-//         <input type="submit"></input>
-//       </p>
-//     </div>
-
-//   );
-// }
 
 export default App;

@@ -1,4 +1,6 @@
 from pathlib import Path
+import sys
+sys.path.append('../model/')
 
 import pandas as pd
 import numpy as np
@@ -23,9 +25,10 @@ class DogKNN:
             pd.DataFrame: A cleaned dataframe
         """
         try:
+            print(f'Current directory is {Path.cwd()}')
             df = pd.read_csv('KIBBestInShowFull.csv')
         except FileNotFoundError:
-            path = Path('model') / Path('KIBBestInShowFull.csv')
+            path = Path.home() / 'dog_knn'/ 'model' / 'KIBBestInShowFull.csv'
             df = pd.read_csv(path)
         df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
         df = df.replace('no data', np.nan)
@@ -137,7 +140,7 @@ def main(dog_breed: str, n_neighbors: int = 3, cost_vars: bool = False) -> str:
     print(breed_names)
     fmt_vars = comma_formatter(var_list)
     print(f"using the variables {fmt_vars}")
-    return breed_names + f'Using the variables {fmt_vars}'
+    return breed_names + f'\nUsing the variables {fmt_vars}'
 
 
 if __name__ == '__main__':
