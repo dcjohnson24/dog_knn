@@ -25,10 +25,9 @@ class DogKNN:
             pd.DataFrame: A cleaned dataframe
         """
         try:
-            print(f'Current directory is {Path.cwd()}')
             df = pd.read_csv('KIBBestInShowFull.csv')
         except FileNotFoundError:
-            path = Path.home() / 'dog_knn'/ 'model' / 'KIBBestInShowFull.csv'
+            path = Path.home() / 'dog_knn' / 'model' / 'KIBBestInShowFull.csv'
             df = pd.read_csv(path)
         df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
         df = df.replace('no data', np.nan)
