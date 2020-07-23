@@ -114,9 +114,10 @@ def main(dog_breed: str, n_neighbors: int = 3, cost_vars: bool = False) -> str:
     """ Print the nearest neighbors of a given dog breed
 
     Args:
-        dog_breed (str): One of the 174 dog breeds in the dataset
+        dog_breed (str): One of the 174 dog breeds in the dataset.
         n_neighbors (int, optional): number of neighbors to choose.
             Defaults to 3.
+        cost_vars (bool): Whether to use cost or physical characteristics.
 
     Returns:
         str: The nearest neighbors of the dog_breed and the variables used.
@@ -137,9 +138,10 @@ def main(dog_breed: str, n_neighbors: int = 3, cost_vars: bool = False) -> str:
     neighbors = dog_knn.find_neighbors(subset_df)
     breed_names = dog_knn.get_breed_names(neighbors)
     print(breed_names)
+    var_list[0] = 'no. of genetic ailments'
     fmt_vars = comma_formatter(var_list)
-    print(f"using the variables {fmt_vars}")
-    return breed_names + f'\nUsing the variables {fmt_vars}'
+    print(f'using the variables {fmt_vars}')
+    return breed_names + f', using the variables {fmt_vars}'
 
 
 if __name__ == '__main__':
