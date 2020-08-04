@@ -66,7 +66,8 @@ class App extends React.Component {
                   }}
                   renderInput={params => (
                     <TextField 
-                      {...params} 
+                      {...params}
+                      data-testid='dogName' 
                       label="Enter a dog name" 
                       margin="normal"
                       style={{backgroundColor: 'white'}}
@@ -91,6 +92,7 @@ class App extends React.Component {
                   renderInput={params => (
                     <TextField 
                       {...params}
+                      data-testid='neighbors'
                       label="Enter number of neighbors" 
                       margin="normal"
                       style={{backgroundColor: 'white'}}
