@@ -1,7 +1,4 @@
 import React from 'react';
-// import API mocking utilities from Mock Service worker
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
 
 // import react testing methods
 import { render, screen } from '@testing-library/react';
@@ -21,37 +18,34 @@ import App from './App';
     },
   });
 
+test('renders the title text', () => {  
+  render(<App />);
+  expect(screen.getByText(/Welcome to the Dog Nearest Neighbors App/i)).toBeInTheDocument();
 
-describe('Screen text', () => {
-  test('renders the title text', () => {  
-    render(<App />);
-    expect(screen.getByText(/Welcome to the Dog Nearest Neighbors App/i)).toBeInTheDocument();
+  expect(screen.getByText(/Submit/i)).toBeInTheDocument();
+
+  const [ dogNameLinkElement ] = screen.getAllByText(
+    (_, { textContent }) => textContent === 'Enter a dog name')
+  expect(dogNameLinkElement.textContent).toBe('Enter a dog name');
+
+  const [ numNeighborsLinkElelment ] = screen.getAllByText(
+    (_, { textContent }) => textContent === 'Enter number of neighbors')
+  expect(numNeighborsLinkElelment.textContent).toBe('Enter number of neighbors')
+});
+
+
+test('userEvent test', () => {
+  render(<App />);
   
-    expect(screen.getByText(/Submit/i)).toBeInTheDocument();
+  userEvent.type(screen.getByTestId('dogName').querySelector('input'), 'Labrador Retriever');
 
-    const [ dogNameLinkElement ] = screen.getAllByText(
-      (_, { textContent }) => textContent === 'Enter a dog name')
-    expect(dogNameLinkElement.textContent).toBe('Enter a dog name');
+  expect(screen.getByText('Labrador Retriever')).toBeInTheDocument();
+  
+  userEvent.type(screen.getByTestId('neighbors').querySelector('input'), '3');
+  
+  expect(screen.getByText('3')).toBeInTheDocument();
 
-    const [ numNeighborsLinkElelment ] = screen.getAllByText(
-      (_, { textContent }) => textContent === 'Enter number of neighbors')
-    expect(numNeighborsLinkElelment.textContent).toBe('Enter number of neighbors')
-  });
+  userEvent.click(screen.getByText('Submit'));
+
 });
 
-describe('Screen text after event firing', () => {
-  test('userEvent test', () => {
-    render(<App />);
-    
-    userEvent.type(screen.getByTestId('neighbors').querySelector('input'), '3');
-    
-    expect(screen.getByText('3')).toBeInTheDocument();
-
-    userEvent.type(screen.getByTestId('dogName').querySelector('input'), 'Labrador Retriever');
-
-    expect(screen.getByText('Labrador Retriever')).toBeInTheDocument();
-
-    userEvent.click(screen.getByText('Submit'));
-
-  });
-});

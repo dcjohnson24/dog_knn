@@ -24,6 +24,13 @@ class App extends React.Component {
     };
   }
 
+  // Fxi for Warning message Can't perform a React state update on an unmounted component
+  componentWillUnmmount() {
+    this.setState = (state, callback) => {
+      return;
+    };
+  }
+
   handleClick = (event) => {
     const formData = this.state.formData;
     fetch('/api/dogs',
