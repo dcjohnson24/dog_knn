@@ -37,7 +37,5 @@
     ]
   },
   "proxy": "http://localhost:5000",
-  "devDependencies": {
-    "msw": "^0.19.5"
-  }
+  "devDependencies": {}
 }
