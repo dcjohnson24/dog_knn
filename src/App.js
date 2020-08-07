@@ -24,6 +24,13 @@ class App extends React.Component {
     };
   }
 
+  // Fxi for Warning message Can't perform a React state update on an unmounted component
+  componentWillUnmmount() {
+    this.setState = (state, callback) => {
+      return;
+    };
+  }
+
   handleClick = (event) => {
     const formData = this.state.formData;
     fetch('/api/dogs',
@@ -66,7 +73,8 @@ class App extends React.Component {
                   }}
                   renderInput={params => (
                     <TextField 
-                      {...params} 
+                      {...params}
+                      data-testid='dogName' 
                       label="Enter a dog name" 
                       margin="normal"
                       style={{backgroundColor: 'white'}}
@@ -91,6 +99,7 @@ class App extends React.Component {
                   renderInput={params => (
                     <TextField 
                       {...params}
+                      data-testid='neighbors'
                       label="Enter number of neighbors" 
                       margin="normal"
                       style={{backgroundColor: 'white'}}
