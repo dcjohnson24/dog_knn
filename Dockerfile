@@ -1,14 +1,22 @@
-FROM node:14.8.0-slim
+FROM python:3.8-slim
 
-WORKDIR /
+RUN apt-get update && apt-get install -y gnupg2 && apt-get install -y curl \
+    && apt-get install -y nodejs && apt-get install -y npm \
+    && npm -g install yarn
 
-ENV PATH ./node_modules/.bin:$PATH
+WORKDIR /usr/src/app
 
-COPY package.json ./
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+COPY public ./public
+COPY src ./src
+COPY package.json ./package.json
+COPY yarn.lock ./yarn.lock
+
 RUN yarn add react-scripts
 RUN yarn install
 RUN yarn build
 
-COPY . ./
+COPY . .
 
-CMD ["yarn", "start"]
+RUN pip install -r api/requirements.txt

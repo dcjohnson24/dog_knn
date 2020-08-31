@@ -4,18 +4,25 @@ services:
     frontend:
         build:
             context: .
+        command: ['yarn', 'start']
         ports:
             - 3000:3000
         volumes:
-            - '.:/app'
-            - '.:/app/node_modules'
-    
+            - '.:/usr/src/app'
+            - '/usr/src/app/node_modules'
+        stdin_open: true # docker run -i
+        tty: true # docker run -t 
+        depends_on: 
+            - backend
+
     backend:
         build:
-            context: ./api
-        ports:
-            - 5000:5000
+            context: .
+        command: ['yarn', 'start-api']
+        expose: 
+            - 5000
         volumes:
-            - './api:/api'
-        depends_on:
-            - frontend
+            - './api:/usr/src/app/'
+        env_file:
+            - ./api/.flaskenv 
+        
