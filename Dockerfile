@@ -17,6 +17,8 @@ RUN yarn add react-scripts
 RUN yarn install
 RUN yarn build
 
-COPY . .
+COPY api/requirements.txt ./api/requirements.txt
 
 RUN pip install -r api/requirements.txt
+
+COPY . .
