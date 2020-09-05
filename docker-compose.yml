@@ -5,7 +5,6 @@ services:
         container_name: frontend
         build:
             context: .
-        command: ['yarn', 'start']
         ports:
             - '3000:3000'
         volumes:
@@ -20,13 +19,11 @@ services:
     backend:
         container_name: backend
         build:
-            context: .
-        command: ['yarn', 'start-api']
+            context: ./api
         ports:
             - '5000:5000'
         volumes:
              - '.:/usr/src/app/'
-             - '/usr/src/app/node_modules'
         env_file:
             - ./api/.flaskenv 
             - .env

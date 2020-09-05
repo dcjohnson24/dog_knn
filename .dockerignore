@@ -2,6 +2,7 @@
 # Anything not used by the build system should go here.
 .venv
 venv
+.vscode
 
 __pycache__
 
