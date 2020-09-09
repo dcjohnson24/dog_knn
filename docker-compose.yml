@@ -5,6 +5,7 @@ services:
         container_name: frontend
         build:
             context: .
+            dockerfile: Dockerfile.dev
         ports:
             - '3000:3000'
         volumes:
@@ -15,6 +16,17 @@ services:
         env_file: .env
         stdin_open: true # docker run -i
         tty: true # docker run -t 
+    
+    proxy:
+        container_name: proxy
+        build:
+            context: ./proxy
+            dockerfile: Dockerfile.dev
+        ports:
+            - '80:80'
+        depends_on: 
+            - frontend
+            - backend
         
     backend:
         container_name: backend
