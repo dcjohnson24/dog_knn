@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+    frontend:
+        container_name: frontend
+        build:
+            context: .
+            dockerfile: Dockerfile.prod
+        ports:
+            - '3000:3000'
+        volumes:
+            - '.:/usr/src/app'
+            - '/usr/src/app/node_modules'
+        depends_on: 
+            - backend
+        env_file: .env
+        restart: always
+        # stdin_open: true # docker run -i
+        # tty: true # docker run -t 
+    
+    proxy:
+        container_name: proxy
+        build: 
+            context: ./proxy
+            dockerfile: Dockerfile.prod
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - '.:/usr/src/app'
+        depends_on: 
+            - frontend
+            - backend
+        restart: always
+
+    backend:
+        container_name: backend
+        build:
+            context: ./api
+        ports:
+            - '5000:5000'
+        volumes:
+             - '.:/usr/src/app/'
+        env_file:
+            - ./api/.flaskenv 
+            - .env
+        restart: always
+
