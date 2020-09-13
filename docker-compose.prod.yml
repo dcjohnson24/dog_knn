@@ -13,10 +13,10 @@ services:
             - '/usr/src/app/node_modules'
         depends_on: 
             - backend
-        env_file: .env
+        environment:
+            - DOCKER_CLIENT_TIMEOUT=1000
+            - COMPOSE_HTTP_TIMEOUT=1000 
         restart: always
-        # stdin_open: true # docker run -i
-        # tty: true # docker run -t 
     
     proxy:
         container_name: proxy
@@ -40,9 +40,11 @@ services:
         ports:
             - '5000:5000'
         volumes:
-             - '.:/usr/src/app/'
-        env_file:
-            - ./api/.flaskenv 
-            - .env
+            - '.:/usr/src/app/'
+        environment: 
+            - DOCKER_CLIENT_TIMEOUT=1000
+            - COMPOSE_HTTP_TIMEOUT=1000
+            - DOCKER_DEPLOY=1
+            - FLASK_APP=api.py
         restart: always
 
