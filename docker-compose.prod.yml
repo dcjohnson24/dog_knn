@@ -16,8 +16,10 @@ services:
         environment:
             - DOCKER_CLIENT_TIMEOUT=1000
             - COMPOSE_HTTP_TIMEOUT=1000 
+        stdin_open: true # docker run -i
+        tty: true # docker run -t 
         restart: always
-    
+        
     proxy:
         container_name: proxy
         build: 
