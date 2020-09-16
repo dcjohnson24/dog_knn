@@ -20,7 +20,7 @@ FROM nginx:1.19.2
 
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
 
-COPY nginx-prod.conf /etc/nginx/nginx-prod.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
