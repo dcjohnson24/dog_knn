@@ -20,6 +20,7 @@ services:
         restart: always
     
     proxy:
+        container_name: proxy
         build: 
             context: proxy
             dockerfile: Dockerfile.prod
