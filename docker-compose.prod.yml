@@ -7,7 +7,7 @@ services:
             context: .
             dockerfile: Dockerfile.prod
         ports:
-            - '3000:3000'
+            - '80:80'
         volumes:
             - '.:/usr/src/app'
             - '/usr/src/app/node_modules'
@@ -18,17 +18,6 @@ services:
         stdin_open: true # docker run -i
         tty: true # docker run -t 
         restart: always
-    
-    proxy:
-        container_name: proxy
-        build: 
-            context: proxy
-            dockerfile: Dockerfile.prod
-        ports:
-            - '80:80'
-        depends_on: 
-            - frontend
-            - backend
 
     backend:
         container_name: backend
