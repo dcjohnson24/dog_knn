@@ -1,0 +1,29 @@
+FROM node:14.9.0-slim as build
+
+WORKDIR /usr/src/app
+
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+COPY public ./public
+COPY src ./src
+COPY package.json ./package.json
+COPY yarn.lock ./yarn.lock
+
+RUN yarn add react-scripts
+RUN yarn install
+
+COPY . .
+
+RUN yarn build
+
+FROM nginx:1.19.2
+
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
+
+RUN rm -f /etc/nginx/conf.d/*
+
+COPY nginx-prod.conf /etc/nginx/conf.d/app.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

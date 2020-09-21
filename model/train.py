@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+import os
 sys.path.append('../model/')
 
 import pandas as pd
@@ -11,6 +12,7 @@ from sklearn.impute import IterativeImputer
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import StandardScaler
 
+from dotenv import load_dotenv
 
 class DogKNN:
     def __init__(self, dog_breed: str, n_neighbors: int):
@@ -27,7 +29,12 @@ class DogKNN:
         try:
             df = pd.read_csv('KIBBestInShowFull.csv')
         except FileNotFoundError:
-            path = Path.home() / 'dog_knn' / 'model' / 'KIBBestInShowFull.csv'
+            load_dotenv()
+            DOCKER_DEPLOY = int(os.getenv('DOCKER_DEPLOY'))
+            if DOCKER_DEPLOY == 1:
+                path = Path('/usr') / 'src' / 'app' / 'model' / 'KIBBestInShowFull.csv'
+            else:
+                path = Path.home() / 'dog_knn' / 'model' / 'KIBBestInShowFull.csv'
             df = pd.read_csv(path)
         df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
         df = df.replace('no data', np.nan)

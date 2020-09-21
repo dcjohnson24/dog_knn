@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+    frontend:
+        container_name: frontend
+        build:
+            context: .
+            dockerfile: Dockerfile.prod
+        ports:
+            - '80:80'
+        volumes:
+            - '.:/usr/src/app'
+            - '/usr/src/app/node_modules'
+        depends_on: 
+            - backend
+        env_file: 
+            - .env 
+        stdin_open: true # docker run -i
+        tty: true # docker run -t 
+
+    backend:
+        container_name: backend
+        build:
+            context: ./api
+        ports:
+            - '5000:5000'
+        volumes:
+            - '.:/usr/src/app/'
+        env_file: 
+            - .env
+            - api/.flaskenv
+        restart: always
+
