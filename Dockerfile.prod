@@ -24,9 +24,6 @@ RUN rm -f /etc/nginx/conf.d/*
 
 COPY nginx-prod.conf /etc/nginx/conf.d/app.conf
 
-COPY /etc/letsencrypt/live/dogneighbors.tk/fullchain.pem /etc/nginx/certs
-COPY /etc/letsencrypt/live/dogneighbors.tk/privkey.pem /etc/nginx/certs/
-
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]

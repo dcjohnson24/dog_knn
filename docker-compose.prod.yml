@@ -11,6 +11,7 @@ services:
         volumes:
             - '.:/usr/src/app'
             - '/usr/src/app/node_modules'
+            - /etc/letsencrypt/live/dogneighbors.tk:/etc/nginx/certs
         depends_on: 
             - backend
         env_file: 
