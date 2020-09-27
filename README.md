@@ -1,72 +1,36 @@
+# Dog KNN
+A basic app that returns the `k` nearest neighbors of a selected dog breed using the variables no. of genetic ailments, weight (kg), and shoulder height (cm).
+
+The app can be viewed at [dogneighbors.tk](www.dogneighbors.tk). It should be live on weekdays between 9am and 5pm Central Time.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Getting started
+Install [Nodejs](https://nodejs.org/en/), [Yarn](https://yarnpkg.com/), [Python](https://www.python.org/) (>=3.5), [Docker](https://docs.docker.com/get-docker/), and [Docker Compose](https://docs.docker.com/compose/install/). 
 
-In the project directory, you can run:
+Clone the repo and create a virtual environment in the `api` folder with `python3 -m venv .venv`.
 
-### `yarn start`
+Activate the virtual environment with `source api/.venv/bin/activate`. Install the requirements with `pip install -r api/requirements.txt`.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+To set the environment variables, create a file `api/.flaskenv` that contains 
+```
+FLASK_APP=api.py
+FLASK_ENV=development
+DOCKER_DEPLOY=1
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+You can also create a `.env` file that has 
+```
+DOCKER_CLIENT_TIMEOUT=1000
+COMPOSE_HTTP_TIMEOUT=1000
+```
 
-### `yarn test`
+This can be helpful for slower internet connections. 
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Running the app
+Start the app locally by running `docker-compose up --build -d`. The app will be available on `localhost:3000`.
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Note that by setting `DOCKER_DEPLOY=0`, the app will not run inside a Docker container. To run the app without Docker, use `yarn start`. Then open up a second terminal, activate the virtual environment with `source api/.venv/bin/activate` and type `yarn start-api`. This will start the Flask backend that returns predictions.
 
 ## Data Source
-
-The data was sourced from the American Kennel Club and can be found [here](https://docs.google.com/spreadsheets/d/1l_HfF5EaN-QgnLc2UYdCc7L2CVrk0p3VdGB1godOyhk/edit#gid=10). The data was also covered on this blog [post](https://www.informationisbeautiful.net/visualizations/best-in-show-whats-the-top-data-dog/).
+The data was sourced from the [American Kennel Club](https://docs.google.com/spreadsheets/d/1l_HfF5EaN-QgnLc2UYdCc7L2CVrk0p3VdGB1godOyhk/edit#gid=10). It is also described in this blog [post](https://www.informationisbeautiful.net/visualizations/best-in-show-whats-the-top-data-dog/).
