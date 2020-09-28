@@ -6,12 +6,15 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 COPY public ./public
 COPY src ./src
-COPY package.json ./package.json
+COPY package-docker.json ./package.json
 COPY yarn.lock ./yarn.lock
 
 RUN yarn add react-scripts
 RUN yarn install
 
 COPY . .
+
+# Make sure the package-docker.json version is in use after previous COPY
+COPY package-docker.json package.json 
 
 CMD ["yarn", "start"]
