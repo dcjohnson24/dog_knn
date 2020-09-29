@@ -30,7 +30,7 @@ class DogKNN:
             df = pd.read_csv('KIBBestInShowFull.csv')
         except FileNotFoundError:
             load_dotenv()
-            DOCKER_DEPLOY = int(os.getenv('DOCKER_DEPLOY'))
+            DOCKER_DEPLOY = int(os.getenv('DOCKER_DEPLOY', 0))
             if DOCKER_DEPLOY == 1:
                 path = Path('/usr') / 'src' / 'app' / 'model' / 'KIBBestInShowFull.csv'
             else:
