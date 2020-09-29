@@ -1,7 +1,7 @@
 # Dog KNN
 A basic app that returns the `k` nearest neighbors of a selected dog breed using the variables no. of genetic ailments, weight (kg), and shoulder height (cm).
 
-The app can be viewed at [dogneighbors.tk](www.dogneighbors.tk). It should be live on weekdays between 9am and 5pm Central Time.
+The app can be viewed at [dogneighbors.tk](https://dogneighbors.tk). It should be live on weekdays between 9am and 5pm Central Time.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
