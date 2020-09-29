@@ -10,7 +10,6 @@ services:
             - '80:80'
             - '443:443'
         volumes:
-            - '.:/usr/src/app'
             - '/usr/src/app/node_modules'
             - /etc/letsencrypt:/etc/nginx/certs
         depends_on: 
