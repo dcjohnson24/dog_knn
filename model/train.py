@@ -102,7 +102,10 @@ class DogKNN:
         # Since the first element is the dog itself, look at indices[1:]
         dog_neighbors = self.df['dog breed'].iloc[indices[1:]].tolist()
         dog_neigh_fmt = comma_formatter(dog_neighbors)
-        return f'The closest breeds to {self.dog_breed} are {dog_neigh_fmt}'
+        if len(dog_neighbors) == 1:
+            return f'The closest breed to {self.dog_breed} is {dog_neigh_fmt}'
+        else:
+            return f'The closest breeds to {self.dog_breed} are {dog_neigh_fmt}'
 
 
 def comma_formatter(name_list: list) -> str:
@@ -114,7 +117,10 @@ def comma_formatter(name_list: list) -> str:
     Returns:
         str: a string in the form of name1, name2, and name3
     """
-    return ", ".join(name_list[:-2] + [", and ".join(name_list[-2:])])
+    if len(name_list) == 2:
+        return " and ".join(name_list)
+    else:
+        return ", ".join(name_list[:-2] + [", and ".join(name_list[-2:])])
 
 
 def main(dog_breed: str, n_neighbors: int = 3, cost_vars: bool = False) -> str:
@@ -146,6 +152,9 @@ def main(dog_breed: str, n_neighbors: int = 3, cost_vars: bool = False) -> str:
     breed_names = dog_knn.get_breed_names(neighbors)
     print(breed_names)
     var_list[0] = 'no. of genetic ailments'
+    var_list = [var.title() for var in var_list]
+    var_list = [var.replace('Kg', 'kg') for var in var_list]
+    var_list = [var.replace('Cm', 'cm') for var in var_list]
     fmt_vars = comma_formatter(var_list)
     print(f'using the variables {fmt_vars}')
     return breed_names + f', using the variables {fmt_vars}'
