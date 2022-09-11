@@ -32,8 +32,13 @@ This can be helpful for slower internet connections.
 ## Running the app
 Start the app locally by running `docker-compose -f docker-compose.yml up --build -d`. The app will be available on `localhost:3000`. The `--build` option can be omitted on subsequent runs of `docker compose` once images have been built.
 
+![landing](images/dog_knn.png)
+
 ### Running the app without Docker
 Note that by setting `DOCKER_DEPLOY=0` in the `api/.flaskenv` or `.env` file, the app will not run inside a Docker container. To run the app without Docker, use `yarn start` in the current terminal. Then open up a second terminal, activate the virtual environment with `source api/.venv/bin/activate`, and type `yarn start-api`. This will start the `Flask` backend that returns predictions.
+
+## Deployment
+Follow the steps for cloning a repo to an EC2 instance [here](https://stackoverflow.com/questions/51380792/git-clone-ec2-instance-permissions-error). Run `./setup-server.sh` to install `docker` and `docker compose` on the instance. Then use `docker compose -f docker-compose.prod.yml up -d --build` to start the app.  
 
 ## Data Source
 The data was sourced from the [American Kennel Club](https://docs.google.com/spreadsheets/d/1l_HfF5EaN-QgnLc2UYdCc7L2CVrk0p3VdGB1godOyhk/edit#gid=10). It is also described in this blog [post](https://www.informationisbeautiful.net/visualizations/best-in-show-whats-the-top-data-dog/).
